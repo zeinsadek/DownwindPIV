@@ -5,8 +5,6 @@
 clc; clear; close all;
 addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/readimx-v2.1.8-osx/');
 addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions/');
-% addpath('G:/Other computers/Zein MacBook Pro/Downwind/Downwind_Functions/');
-% addpath('C:/Users/Zein/Documents/MATLAB/readimx-v2.1.8-win64/');
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INPUT PARAMETERS 
@@ -18,7 +16,6 @@ recording_name = 'UW_LM1B_CN00_PLXZ_X1_Z1';
 processing     = 'StereoPIV_MPd(2x12x12_50%ov)';
 inpt_name      = recording_name;
 
-
 % Image paths
 piv_path = fullfile(project_path, recording_name, processing);
 
@@ -28,11 +25,6 @@ results_path = '/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/';
 mtlb_file    = strcat(results_path, 'data'   , '/', inpt_name, '_DATA.mat');
 mean_file    = strcat(results_path, 'means'  , '/', inpt_name, '_MEANS.mat');
 figure_file  = strcat(results_path, 'figures', '/', inpt_name);
-
-% Make specific folder for figures of an experiment
-% if ~exist(figure_file, 'dir')
-%     mkdir(figure_file)
-% end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DAVIS TO MATLAB
@@ -85,7 +77,7 @@ vw = means.vw;
 %% Means Plots
 
 ax = figure();
-t  = tiledlayout(1,3);
+tiledlayout(1,3);
 sgtitle(inpt_name, 'interpreter', 'none')
 
 nexttile()
@@ -118,7 +110,7 @@ title('w')
 %% Stresses Plots
 
 ax = figure();
-t  = tiledlayout(2,3);
+tiledlayout(2,3);
 sgtitle(inpt_name, 'interpreter', 'none')
 
 % Normal Stresses
@@ -148,7 +140,6 @@ xlim([-100,100])
 ylim([-100,100])
 colorbar()
 title('ww')
-
 
 % Shear Stresses
 nexttile()
