@@ -190,11 +190,11 @@ clear tmp component temp_comp tmp_x tmp_y x y c i j
 % PLOT CHECK
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-X = cropped.X1Z2.X;
-Y = cropped.X1Z2.Y;
-u = cropped.X1Z2.u;
-v = cropped.X1Z2.v;
-w = cropped.X1Z2.w;
+X = cropped.X1Z1.X;
+Y = cropped.X1Z1.Y;
+u = cropped.X1Z1.u;
+v = cropped.X1Z1.v;
+w = cropped.X1Z1.w;
 
 oldXMax = max(data.X1Z1.X, [], 'all');
 oldXMin = min(data.X1Z1.X, [], 'all');
@@ -254,11 +254,11 @@ clear oldXMin oldXMax oldYMin oldYMax
 % Load coordinates and u velocity
 X11 = cropped.X1Z1.X;
 Y11 = cropped.X1Z1.Y;
-U11 = cropped.X1Z1.u;
+U11 = cropped.X1Z1.vw;
 
 X21 = cropped.X2Z1.X;
 Y21 = cropped.X2Z1.Y;
-U21 = cropped.X2Z1.u;
+U21 = cropped.X2Z1.vw;
 
 %%% ZEIN: figure out closest pixel shift based on how far we need to shift
 designedOverlap = 40; % mm
@@ -299,28 +299,28 @@ clear zeroPad fadeMask U11Faded U21Faded
 % PLOT CHECK: BOTTOM ROW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure()
-tiledlayout(3,1)
-
-U11_plot = U11Padded;
-U11_plot(U11_plot == 0) = nan;
-
-U21_plot = U21Padded;
-U21_plot(U21_plot == 0) = nan;
-
-nexttile
-contourf(extendedX, extendedY, U11_plot, 500, 'linestyle', 'none')
-axis equal
-
-nexttile
-contourf(extendedX, extendedY, U21_plot, 500, 'linestyle', 'none')
-axis equal
-
-nexttile
-contourf(extendedX, extendedY, combinedBottom, 500, 'linestyle', 'none')
-axis equal
-
-clear ax1 ax2 ax3 U11_plot U21_plot U11Padded U21Padded
+% figure()
+% tiledlayout(3,1)
+% 
+% U11_plot = U11Padded;
+% U11_plot(U11_plot == 0) = nan;
+% 
+% U21_plot = U21Padded;
+% U21_plot(U21_plot == 0) = nan;
+% 
+% nexttile
+% contourf(extendedX, extendedY, U11_plot, 500, 'linestyle', 'none')
+% axis equal
+% 
+% nexttile
+% contourf(extendedX, extendedY, U21_plot, 500, 'linestyle', 'none')
+% axis equal
+% 
+% nexttile
+% contourf(extendedX, extendedY, combinedBottom, 500, 'linestyle', 'none')
+% axis equal
+% 
+% clear ax1 ax2 ax3 U11_plot U21_plot U11Padded U21Padded
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,11 +330,11 @@ clear ax1 ax2 ax3 U11_plot U21_plot U11Padded U21Padded
 % Load coordinates and velocity
 X12 = cropped.X1Z2.X;
 Y12 = cropped.X1Z2.Y;
-U12 = cropped.X1Z2.u;
+U12 = cropped.X1Z2.vw;
 
 X22 = cropped.X2Z2.X;
 Y22 = cropped.X2Z2.Y;
-U22 = cropped.X2Z2.u;
+U22 = cropped.X2Z2.vw;
 
 %%% ZEIN: figure out closest pixel shift based on how far we need to shift
 designedOverlap = 40; % mm
@@ -372,28 +372,28 @@ clear zeroPad fadeMask U12Faded U22Faded
 % PLOT CHECK: TOP ROW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure()
-tiledlayout(3,1)
-
-U12_plot = U12Padded;
-U12_plot(U12_plot == 0) = nan;
-
-U22_plot = U22Padded;
-U22_plot(U22_plot == 0) = nan;
-
-nexttile
-contourf(extendedX, extendedY, U12_plot, 500, 'linestyle', 'none')
-axis equal
-
-nexttile
-contourf(extendedX, extendedY, U22_plot, 500, 'linestyle', 'none')
-axis equal
-
-nexttile
-contourf(extendedX, extendedY, combinedTop, 500, 'linestyle', 'none')
-axis equal
-
-clear ax1 ax2 ax3 U12_plot U22_plot U12Padded U22Padded
+% figure()
+% tiledlayout(3,1)
+% 
+% U12_plot = U12Padded;
+% U12_plot(U12_plot == 0) = nan;
+% 
+% U22_plot = U22Padded;
+% U22_plot(U22_plot == 0) = nan;
+% 
+% nexttile
+% contourf(extendedX, extendedY, U12_plot, 500, 'linestyle', 'none')
+% axis equal
+% 
+% nexttile
+% contourf(extendedX, extendedY, U22_plot, 500, 'linestyle', 'none')
+% axis equal
+% 
+% nexttile
+% contourf(extendedX, extendedY, combinedTop, 500, 'linestyle', 'none')
+% axis equal
+% 
+% clear ax1 ax2 ax3 U12_plot U22_plot U12Padded U22Padded
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -429,32 +429,43 @@ completeImage = topPadded + bottomPadded;
 % Extend the coordinate system
 resolution = mean(diff(X11(1,:)));
 completeX = vertcat(extendedX, extendedX(1:verticalShift, :));
-completeY = vertcat(extendedY(1:verticalShift, :) + range(Y11(:,1)) +  resolution, extendedY);
+completeY = vertcat(extendedY(1:verticalShift, :) + range(extendedY(1:verticalShift,1)) +  resolution, extendedY);
 
 
 %% Plot
 
-topPaddedPlot = topPadded;
-topPaddedPlot(topPaddedPlot == 0) = nan;
+% topPaddedPlot = topPadded;
+% topPaddedPlot(topPaddedPlot == 0) = nan;
+% 
+% bottomPaddedPlot = bottomPadded;
+% bottomPaddedPlot(bottomPaddedPlot == 0) = nan;
+% 
+% lineWidth = 3;
+% 
+% figure();
+% tiledlayout(1,3)
+% 
+% nexttile
+% contourf(completeX, completeY, topPaddedPlot, 100, 'linestyle', 'none');
+% axis equal
+% colormap jet
+% clim([0, 1])
+% 
+% nexttile
+% contourf(completeX, completeY, bottomPaddedPlot, 100, 'linestyle', 'none');
+% axis equal
+% colormap jet
+% clim([0, 1])
+% nexttile
 
-bottomPaddedPlot = bottomPadded;
-bottomPaddedPlot(bottomPaddedPlot == 0) = nan;
-
-figure();
-tiledlayout(3,1)
-
-nexttile
-contourf(completeX, completeY, topPaddedPlot, 100, 'linestyle', 'none');
+figure()
+contourf(completeX, completeY, completeImage, 500, 'linestyle', 'none');
 axis equal
-
-nexttile
-contourf(completeX, completeY, bottomPaddedPlot, 100, 'linestyle', 'none');
-axis equal
-
-nexttile
-contourf(completeX, completeY, imgaussfilt(completeImage, 10), 100, 'linestyle', 'none');
-axis equal
-
+colormap coolwarm
+colorbar()
+% clim([0, 1])
+xline(min(completeX, [], "all") + range(completeX(1,:)) / 2, "LineWidth", lineWidth)
+yline(min(completeY, [], "all") + range(completeY(:,1)) / 2, "LineWidth", lineWidth)
 
 
 
