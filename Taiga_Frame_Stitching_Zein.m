@@ -22,7 +22,7 @@ addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/colormaps');
 
 % Load data for all 4 planes all at once
 project_path = '/Users/zeinsadek/Desktop/Experiments/Downwind/Processed/means';
-orientation  = 'DW';
+orientation  = 'UW';
 
 for i = 1:2
     for j = 1:2
@@ -91,50 +91,50 @@ clear c component i j location_tag tmp tmp_mean
 % PLOT CHECK
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-X = data.X1Z1.X;
-Y = data.X1Z1.Y;
-u = rotated_means.X1Z1.u;
-v = rotated_means.X1Z1.v;
-w = rotated_means.X1Z1.w;
-
-figure();
-tiledlayout(3,1);
-sgtitle(orientation, 'interpreter', 'none')
-
-ax1=nexttile;
-contourf(X, Y, u, 100, 'linestyle', 'none')
-colormap(ax1, 'parula');
-axis equal
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar()
-title('u')
-
-ax2=nexttile;
-contourf(X, Y, v, 100, 'linestyle', 'none')
-colormap(ax2, 'coolwarm');
-axis equal
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar()
-title('v')
-
-ax3=nexttile;
-contourf(X, Y, w, 100, 'linestyle', 'none')
-colormap(ax3, 'coolwarm');
-axis equal
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar() 
-title('w')
-
-clear X Y u v w z ax1 ax2 ax3
+% X = data.X1Z1.X;
+% Y = data.X1Z1.Y;
+% u = rotated_means.X1Z1.u;
+% v = rotated_means.X1Z1.v;
+% w = rotated_means.X1Z1.w;
+% 
+% figure();
+% tiledlayout(3,1);
+% sgtitle(orientation, 'interpreter', 'none')
+% 
+% ax1=nexttile;
+% contourf(X, Y, u, 100, 'linestyle', 'none')
+% colormap(ax1, 'parula');
+% axis equal
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar()
+% title('u')
+% 
+% ax2=nexttile;
+% contourf(X, Y, v, 100, 'linestyle', 'none')
+% colormap(ax2, 'coolwarm');
+% axis equal
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar()
+% title('v')
+% 
+% ax3=nexttile;
+% contourf(X, Y, w, 100, 'linestyle', 'none')
+% colormap(ax3, 'coolwarm');
+% axis equal
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar() 
+% title('w')
+% 
+% clear X Y u v w z ax1 ax2 ax3
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CROP DATA JUST TO PLATE
@@ -190,62 +190,62 @@ clear tmp component temp_comp tmp_x tmp_y x y c i j
 % PLOT CHECK
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-X = cropped.X1Z1.X;
-Y = cropped.X1Z1.Y;
-u = cropped.X1Z1.u;
-v = cropped.X1Z1.v;
-w = cropped.X1Z1.w;
-
-oldXMax = max(data.X1Z1.X, [], 'all');
-oldXMin = min(data.X1Z1.X, [], 'all');
-oldYMax = max(data.X1Z1.Y, [], 'all');
-oldYMin = min(data.X1Z1.Y, [], 'all');
-
-figure();
-tiledlayout(3,1);
-sgtitle('UW', 'interpreter', 'none')
-
-ax1=nexttile;
-contourf(X, Y, u, 100, 'linestyle', 'none')
-colormap(ax1, 'parula');
-axis equal
-xlim([oldXMin, oldXMax])
-ylim([oldYMin, oldYMax])
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar()
-title('u')
-
-ax2=nexttile;
-contourf(X, Y, v, 100, 'linestyle', 'none')
-colormap(ax2, 'coolwarm');
-axis equal
-xlim([oldXMin, oldXMax])
-ylim([oldYMin, oldYMax])
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar()
-title('v')
-
-ax3=nexttile;
-contourf(X, Y, w, 100, 'linestyle', 'none')
-colormap(ax3, 'coolwarm');
-axis equal
-xlim([oldXMin, oldXMax])
-ylim([oldYMin, oldYMax])
-xline(100)
-xline(-100)
-yline(100)
-yline(-100)
-colorbar() 
-title('w')
-
-clear X Y u v w ax1 ax2 ax3
-clear oldXMin oldXMax oldYMin oldYMax
+% X = cropped.X1Z1.X;
+% Y = cropped.X1Z1.Y;
+% u = cropped.X1Z1.u;
+% v = cropped.X1Z1.v;
+% w = cropped.X1Z1.w;
+% 
+% oldXMax = max(data.X1Z1.X, [], 'all');
+% oldXMin = min(data.X1Z1.X, [], 'all');
+% oldYMax = max(data.X1Z1.Y, [], 'all');
+% oldYMin = min(data.X1Z1.Y, [], 'all');
+% 
+% figure();
+% tiledlayout(3,1);
+% sgtitle('UW', 'interpreter', 'none')
+% 
+% ax1=nexttile;
+% contourf(X, Y, u, 100, 'linestyle', 'none')
+% colormap(ax1, 'parula');
+% axis equal
+% xlim([oldXMin, oldXMax])
+% ylim([oldYMin, oldYMax])
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar()
+% title('u')
+% 
+% ax2=nexttile;
+% contourf(X, Y, v, 100, 'linestyle', 'none')
+% colormap(ax2, 'coolwarm');
+% axis equal
+% xlim([oldXMin, oldXMax])
+% ylim([oldYMin, oldYMax])
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar()
+% title('v')
+% 
+% ax3=nexttile;
+% contourf(X, Y, w, 100, 'linestyle', 'none')
+% colormap(ax3, 'coolwarm');
+% axis equal
+% xlim([oldXMin, oldXMax])
+% ylim([oldYMin, oldYMax])
+% xline(100)
+% xline(-100)
+% yline(100)
+% yline(-100)
+% colorbar() 
+% title('w')
+% 
+% clear X Y u v w ax1 ax2 ax3
+% clear oldXMin oldXMax oldYMin oldYMax
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HORIZONTAL STITCH: BOTTOM ROW
@@ -254,11 +254,11 @@ clear oldXMin oldXMax oldYMin oldYMax
 % Load coordinates and u velocity
 X11 = cropped.X1Z1.X;
 Y11 = cropped.X1Z1.Y;
-U11 = cropped.X1Z1.vw;
+U11 = cropped.X1Z1.u;
 
 X21 = cropped.X2Z1.X;
 Y21 = cropped.X2Z1.Y;
-U21 = cropped.X2Z1.vw;
+U21 = cropped.X2Z1.u;
 
 %%% ZEIN: figure out closest pixel shift based on how far we need to shift
 designedOverlap = 40; % mm
@@ -276,6 +276,10 @@ zeroPad = zeros(OGplaneHeight, horizontalShift);
 fadeMask = ones(OGplaneHeight, OGplaneWidth);
 horizontalOverlap = OGplaneWidth - horizontalShift;
 fadeMask(:, horizontalShift+1:end) = repmat(linspace(1, 0, horizontalOverlap), OGplaneHeight, 1);
+
+
+%%%% ZEIN TEST: BLUR SMOOTH MASK TO REMOVE SHARP EDGES
+% fadeMask = imgaussfilt(fadeMask, 5);
 
 % Apply horizontal fading
 U11Faded = fadeMask .* U11;
@@ -295,7 +299,7 @@ extendedY = horzcat(Y11, Y11(:, 1:horizontalShift));
 
 clear zeroPad fadeMask U11Faded U21Faded
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PLOT CHECK: BOTTOM ROW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -323,21 +327,21 @@ clear zeroPad fadeMask U11Faded U21Faded
 % clear ax1 ax2 ax3 U11_plot U21_plot U11Padded U21Padded
 
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %HORIZONTAL STITCH: TOP ROW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Load coordinates and velocity
 X12 = cropped.X1Z2.X;
 Y12 = cropped.X1Z2.Y;
-U12 = cropped.X1Z2.vw;
+U12 = cropped.X1Z2.u;
 
 X22 = cropped.X2Z2.X;
 Y22 = cropped.X2Z2.Y;
-U22 = cropped.X2Z2.vw;
+U22 = cropped.X2Z2.u;
 
 %%% ZEIN: figure out closest pixel shift based on how far we need to shift
-designedOverlap = 40; % mm
+% designedOverlap = 40; % mm
 plateHalfWidth = 100; % mm
 [~, horizontalShift] = min(abs(cropped.X1Z1.X(1,:) - (plateHalfWidth - designedOverlap)));
 
@@ -349,6 +353,9 @@ zeroPad = zeros(OGplaneHeight, horizontalShift);
 fadeMask = ones(OGplaneHeight, OGplaneWidth);
 horizontalOverlap = OGplaneWidth - horizontalShift;
 fadeMask(:, horizontalShift+1:end) = repmat(linspace(1, 0, horizontalOverlap), OGplaneHeight, 1);
+
+%%%% ZEIN TEST: BLUR SMOOTH MASK TO REMOVE SHARP EDGES
+% fadeMask = imgaussfilt(fadeMask, 5, 'Padding', 'replicate');
 
 % Apply horizontal fading
 U12Faded = fadeMask .* U12;
@@ -368,7 +375,7 @@ extendedY = horzcat(Y11, Y11(:, 1:horizontalShift));
 
 clear zeroPad fadeMask U12Faded U22Faded
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PLOT CHECK: TOP ROW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -396,7 +403,7 @@ clear zeroPad fadeMask U12Faded U22Faded
 % clear ax1 ax2 ax3 U12_plot U22_plot U12Padded U22Padded
 
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % VERTICAL STITCH
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -432,44 +439,30 @@ completeX = vertcat(extendedX, extendedX(1:verticalShift, :));
 completeY = vertcat(extendedY(1:verticalShift, :) + range(extendedY(1:verticalShift,1)) +  resolution, extendedY);
 
 
-%% Plot
-
-% topPaddedPlot = topPadded;
-% topPaddedPlot(topPaddedPlot == 0) = nan;
-% 
-% bottomPaddedPlot = bottomPadded;
-% bottomPaddedPlot(bottomPaddedPlot == 0) = nan;
-% 
 % lineWidth = 3;
-% 
-% figure();
-% tiledlayout(1,3)
-% 
-% nexttile
-% contourf(completeX, completeY, topPaddedPlot, 100, 'linestyle', 'none');
+% figure()
+% contourf(completeX, completeY, completeImage, 500, 'linestyle', 'none');
 % axis equal
-% colormap jet
+% colormap coolwarm
+% colorbar()
 % clim([0, 1])
-% 
-% nexttile
-% contourf(completeX, completeY, bottomPaddedPlot, 100, 'linestyle', 'none');
-% axis equal
-% colormap jet
-% clim([0, 1])
-% nexttile
+% xline(min(completeX, [], "all") + range(completeX(1,:)) / 2, "LineWidth", lineWidth)
+% yline(min(completeY, [], "all") + range(completeY(:,1)) / 2, "LineWidth", lineWidth)
 
+% Profiles? to check stitching?
+
+[rows, columns] = size(completeX);
+
+x = completeX(1,:);
+y = completeY(:,1);
+
+% Horizontal Profiles
 figure()
-contourf(completeX, completeY, completeImage, 500, 'linestyle', 'none');
-axis equal
-colormap coolwarm
-colorbar()
-% clim([0, 1])
-xline(min(completeX, [], "all") + range(completeX(1,:)) / 2, "LineWidth", lineWidth)
-yline(min(completeY, [], "all") + range(completeY(:,1)) / 2, "LineWidth", lineWidth)
-
-
-
-
-
+hold on
+for i = 101:5:161
+    plot(x,completeImage(i,:))
+end
+hold off
+title(num2str(designedOverlap))
 
 

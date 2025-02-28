@@ -22,6 +22,8 @@ orientation  = 'UW';
 
 % Rotor diameter in mm
 D = 200;
+u_inf = 3;
+components = {'u', 'v', 'w','uu', 'vv','ww','uv','uw', 'vw'};
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LOADING MEANS
@@ -46,12 +48,8 @@ end
 clear i j tmp location_tag piv_path recording_name
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% CORRECT ORIENTATION + SIGN
+% CORRECT ORIENTATION + SIGN + NORMALIZE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-components = {'u', 'v', 'w','uu', 'vv','ww','uv','uw', 'vw'};
-
-u_inf = 3;
 
 for i = 1:2
     for j = 1:2
@@ -93,8 +91,6 @@ clear c component i j location_tag tmp tmp_mean
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CROP DATA JUST TO PLATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-components = {'u', 'v', 'w', 'uu', 'vv', 'ww', 'uv', 'uw', 'vw'};
 
 for i = 1:2
     for j = 1:2
@@ -143,7 +139,9 @@ clear tmp component temp_comp tmp_x tmp_y x y c i j
 % COMBINE PLANES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-components = {'u', 'v', 'w', 'uu', 'vv', 'ww', 'uv', 'uw', 'vw'};
+plateHalfWidth = 100; % mm
+designedHorizontalOverlap = 40; % mm
+designedVerticalOverlap = 20; % mm
 
 for c = 1:length(components)
     component = components{c};
@@ -168,8 +166,6 @@ for c = 1:length(components)
     U22 = cropped.X2Z2.(component);
 
     %%% ZEIN: figure out closest pixel shift based on how far we need to shift
-    designedHorizontalOverlap = 40; % mm
-    plateHalfWidth = 100; % mm
     [~, horizontalShift] = min(abs(cropped.X1Z1.X(1,:) - (plateHalfWidth - designedHorizontalOverlap)));
 
     % Horizontal padding (zero pad to make room for stitching)
@@ -209,9 +205,7 @@ for c = 1:length(components)
     extendedY = horzcat(Y11, Y11(:, 1:horizontalShift));
 
 
-    %%% Combine Vertically
-    designedVerticalOverlap = 20; % mm
-    plateHalfWidth = 100; % mm
+    %%% Combine Vertically    
     [~, verticalShift] = min(abs(cropped.X1Z1.Y(:,1) - (plateHalfWidth - designedVerticalOverlap)));
     verticalShift = OGplaneHeight - verticalShift;
     
@@ -301,6 +295,7 @@ ww = combined.ww;
 uv = combined.uv;
 uw = combined.uw;
 vw = combined.vw;
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PLOTTING: VELOCITY
