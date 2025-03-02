@@ -8,8 +8,6 @@
 
 function output = data2means(out_path, inst_struct, depth)
 
-%     Dia     = 33.63;    % mm
-
     % Check if Save Folder Exists. [if not, create]
     if exist(out_path, 'file')
         fprintf('<data2means> *Save Folder was Previously Created. \n')
@@ -42,13 +40,13 @@ function output = data2means(out_path, inst_struct, depth)
     output.w = mean(inst_w, 3, 'omitnan');
 
     % Create Reynolds Stress Objects
-    uu_p = zeros(length(y(1,:)), length(x(:,1)), D);
-    vv_p = zeros(length(y(1,:)), length(x(:,1)), D);
-    ww_p = zeros(length(y(1,:)), length(x(:,1)), D);
+    uu_p = zeros(size(inst_u));
+    vv_p = zeros(size(inst_u));
+    ww_p = zeros(size(inst_u));
     
-    uv_p = zeros(length(y(1,:)), length(x(:,1)), D);
-    uw_p = zeros(length(y(1,:)), length(x(:,1)), D);
-    vw_p = zeros(length(y(1,:)), length(x(:,1)), D);
+    uv_p = zeros(size(inst_u));
+    uw_p = zeros(size(inst_u));
+    vw_p = zeros(size(inst_u));
 
     % Loop Through Each Frame in Struct.
     fprintf('\n<data2means> PROGRESS: ');
