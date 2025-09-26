@@ -8,9 +8,10 @@ addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions');
 addpath('C:\Users\ofercak\Desktop\Zein\PIV\colormaps')
 
 % Load data for all 4 planes all at once
-project_path = 'G:\Crossplane\results\means';
+project_path = 'G:\PIVYZ\new_results';
 orientation  = 'DW';
-x_location = '1';
+coning = 'CN20';
+x_location = '3';
 
 % Rotor diameter in mm
 D = 200;
@@ -24,8 +25,8 @@ components = {'u', 'v', 'w','uu', 'vv','ww','uv','uw', 'vw'};
 
 for i = 1:2
     % Generate case name and path
-    recording_name = strcat(orientation, '_LM00_CN00_PLYZ_X', x_location, '_Z', num2str(i), '_MEANS.mat');
-    piv_path       = fullfile(project_path, recording_name);
+    recording_name = strcat(orientation, '_LM00_', coning, '_PLYZ_X', x_location, '_Z', num2str(i), '_MEANS.mat');
+    piv_path       = fullfile(project_path, 'means', recording_name);
     location_tag   = strcat('X', x_location, 'Z', num2str(i));
     
     % Load data into temp and store into structure
@@ -33,7 +34,7 @@ for i = 1:2
     data.(location_tag) = tmp.output;
 end
 
-clear i location_tag recording_name tmp project_path orientation piv_path
+clear i location_tag recording_name tmp piv_path
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NORMALIZE
@@ -115,7 +116,7 @@ clear tmp component temp_comp tmp_x tmp_y x y c i
 
 %% test plot
 
-loc ='X1Z1';
+loc = ['X', x_location, 'Z1'];
 
 figure()
 hold on
@@ -132,11 +133,11 @@ designedVerticalOverlap = 20; % mm
 for c = 1:length(components)
     component = components{c};
 
-    image1 = cropped.X1Z1.(component);
-    image2 = cropped.X1Z2.(component);
+    image1 = cropped.(['X', x_location, 'Z1']).(component);
+    image2 = cropped.(['X', x_location, 'Z2']).(component);
     
-    X = cropped.X1Z1.X;
-    Y = cropped.X1Z1.Y;
+    X = cropped.(['X', x_location, 'Z1']).X;
+    Y = cropped.(['X', x_location, 'Z1']).Y;
     
     % Get image size
     [imageHeight, imageWidth] = size(image1);
@@ -260,8 +261,19 @@ axis equal
 colorbar()
 colormap(ax3, 'coolwarm')
 title('vw')
-
 clc;
+
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SAVE TO MATFILE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+save_path = fullfile(project_path, 'combined');
+save_name = strcat(orientation, '_LM00_', coning, '_PIVYZ_X', x_location, '_COMBINED.mat');
+
+save(fullfile(save_path, save_name), 'combined');
+fprintf('Saved matfile!\n')
+
 
 %% Functions
 

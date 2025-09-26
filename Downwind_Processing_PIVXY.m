@@ -3,17 +3,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/readimx-v2.1.8-osx/');
-addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions/');
+% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/readimx-v2.1.8-osx/');
+% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions/');
+addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions')
+addpath('C:\Users\ofercak\Desktop\Zein\PIV\readimx-v2.1.9-win64')
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INPUT PARAMETERS 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Data paths
-project_path   = 'H:\UL_BC0X1Z1';
-recording_name = 'UW_LM1B_CN00_PLXZ_X1_Z1';
-processing     = 'StereoPIV_MPd(2x12x12_50%ov)';
+project_path   = 'H:\PIVXY\Downwind';
+recording_name = 'DW_LM00_CN20_PLXY_X2_Z2';
+processing     = 'StereoPIV_MPd(2x24x24_50%ov)_GPU';
 inpt_name      = recording_name;
 
 % Image paths
@@ -21,10 +23,11 @@ piv_path = fullfile(project_path, recording_name, processing);
 
 % Save paths
 % results_path = 'G:\Other computers\Zein MacBook Pro\Downwind\';
-results_path = '/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/';
-mtlb_file    = strcat(results_path, 'data'   , '/', inpt_name, '_DATA.mat');
-mean_file    = strcat(results_path, 'means'  , '/', inpt_name, '_MEANS.mat');
-figure_file  = strcat(results_path, 'figures', '/', inpt_name);
+% results_path = '/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/';
+results_path = 'H:\PIVXY\new_results\';
+mtlb_file    = strcat(results_path, 'data'   , '\', inpt_name, '_DATA.mat');
+mean_file    = strcat(results_path, 'means'  , '\', inpt_name, '_MEANS.mat');
+figure_file  = strcat(results_path, 'figures', '\', inpt_name);
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DAVIS TO MATLAB
@@ -35,8 +38,39 @@ if exist(mtlb_file, 'file')
     data = load(mtlb_file);
     data = data.output;
 else
-    data = vector2matlab(piv_path, mtlb_file);
+    data = vector2matlabPIVXY(piv_path, mtlb_file);
 end
+
+% data = vector2matlabPIVXY(piv_path, mtlb_file);
+
+%% Check orientation and sign
+
+figure()
+tiledlayout(1,3)
+
+nexttile
+contourf(data.X, data.Y, data.U(:,:,1), 50, 'linestyle', 'none')
+axis equal
+xlim([-100, 100])
+ylim([-100, 100])
+colorbar()
+
+nexttile
+contourf(data.X, data.Y, data.V(:,:,1), 50, 'linestyle', 'none')
+axis equal
+xlim([-100, 100])
+ylim([-100, 100])
+colorbar()
+
+nexttile
+contourf(data.X, data.Y, data.W(:,:,1), 50, 'linestyle', 'none')
+axis equal
+xlim([-100, 100])
+ylim([-100, 100])
+colorbar()
+
+
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MATLAB DATA TO ENSEMBLE/PHASE MEANS
@@ -56,8 +90,8 @@ end
 
 clc;
 % Coordinates
-X = means.X.';
-Y = means.Y.';
+X = means.X;
+Y = means.Y;
 
 % Means
 U = means.u;

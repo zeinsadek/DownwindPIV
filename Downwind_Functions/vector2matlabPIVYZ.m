@@ -8,6 +8,9 @@
 
 function output = vector2matlabPIVYZ(file_path, out_path)
 
+    % Halim edit to be able to open
+    output = matfile(out_path, 'Writable', true);
+
     % Path for All Instantenious Snapshots for Specified Conditions.
     file_name   = dir([file_path,'/*.vc7']); 
 
@@ -48,12 +51,15 @@ function output = vector2matlabPIVYZ(file_path, out_path)
             WF = data.Frames{1,1}.Components{W0_index,1}.Scale.Slope.*data.Frames{1,1}.Components{W0_index,1}.Planes{1,1} + data.Frames{1,1}.Components{W0_index,1}.Scale.Offset;
     
             % Correct Sign, Direction, and Add Data to Object.
-            output.U(:, :, frame_number) =  WF.';
-            output.V(:, :, frame_number) =  VF.';
-            output.W(:, :, frame_number) =  UF.';
-        
-    
-        end
+            % output.U(:, :, frame_number) =  WF.';
+            % output.V(:, :, frame_number) =  VF.';
+            % output.W(:, :, frame_number) =  UF.';
+
+            U(:, :, frame_number) =  WF.';
+            V(:, :, frame_number) =  -VF.';
+            W(:, :, frame_number) =  -UF.';
+            
+        end 
     
         % Add Image/Data Parameters to struct file.
         nf = size(UF);
@@ -63,10 +69,15 @@ function output = vector2matlabPIVYZ(file_path, out_path)
         output.X = -1 * X;
         output.Y = Y;
         output.D = D;
+
+        % Save velocities
+        output.U = U;
+        output.V = V;
+        output.W = W;
         
         % Save Matlab File.
         fprintf('\n<vector2matlab> Saving Data to File... \n');
-        save(out_path, 'output');
+        % save(out_path, 'output');
         clc; fprintf('<vector2matlab> Data Save Complete \n')
     end
 end

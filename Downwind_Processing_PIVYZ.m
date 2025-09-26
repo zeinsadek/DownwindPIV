@@ -12,8 +12,12 @@ addpath('C:\Users\ofercak\Desktop\Zein\PIV\colormaps')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Data paths
-project_path   = 'G:\Crossplane\DW_LM00_CN00_PLYZ_X1_Z1';
-recording_name = 'DW_LM00_CN00_PLYZ_X1_Z1';
+caze = 'DW_LM00_CN20_PLYZ';
+position = 'X3_Z2';
+
+caze_position  = strcat(caze, '_', position);
+project_path   = fullfile('G:\PIVYZ', caze(1:end - 5), caze(1:end - 5));
+recording_name = caze_position;
 processing     = 'StereoPIV_MPd(2x24x24_50%ov)_GPU';
 inpt_name      = recording_name;
 
@@ -21,7 +25,7 @@ inpt_name      = recording_name;
 piv_path = fullfile(project_path, recording_name, processing);
 
 % Save paths
-results_path = 'G:\Crossplane\results';
+results_path = 'G:\PIVYZ\new_results';
 mtlb_file    = fullfile(results_path, 'data', strcat(inpt_name, '_DATA.mat'));
 mean_file    = fullfile(results_path, 'means', strcat(inpt_name, '_MEANS.mat'));
 figure_file  = fullfile(results_path, 'figures', inpt_name);
