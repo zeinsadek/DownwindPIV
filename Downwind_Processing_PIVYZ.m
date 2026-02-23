@@ -3,20 +3,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\readimx-v2.1.9-win64');
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions');
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\colormaps')
+addpath('C:\Users\sadek\Desktop\readimx-v2.1.9-win64');
+addpath('C:\Users\sadek\Desktop\ZeinPIVCodes_Github\DownwindPIV\Downwind_Functions');
+addpath('C:\Program Files\MATLAB\slanCM')
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INPUT PARAMETERS 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Data paths
-caze = 'DW_LM00_CN20_PLYZ';
+caze = 'DW_LM4B_CN00_PLYZ';
 position = 'X3_Z2';
 
 caze_position  = strcat(caze, '_', position);
-project_path   = fullfile('G:\PIVYZ', caze(1:end - 5), caze(1:end - 5));
+project_path   = fullfile('F:\PIVYZ', caze(1:end - 5), caze(1:end - 5));
 recording_name = caze_position;
 processing     = 'StereoPIV_MPd(2x24x24_50%ov)_GPU';
 inpt_name      = recording_name;
@@ -25,7 +25,7 @@ inpt_name      = recording_name;
 piv_path = fullfile(project_path, recording_name, processing);
 
 % Save paths
-results_path = 'G:\PIVYZ\new_results';
+results_path = 'F:\PIVYZ\new_results';
 mtlb_file    = fullfile(results_path, 'data', strcat(inpt_name, '_DATA.mat'));
 mean_file    = fullfile(results_path, 'means', strcat(inpt_name, '_MEANS.mat'));
 figure_file  = fullfile(results_path, 'figures', inpt_name);
@@ -94,7 +94,7 @@ colorbar()
 title('u')
 
 ax2 = nexttile();
-colormap(ax2, "coolwarm")
+colormap(ax2, slanCM("coolwarm"))
 contourf(X, Y, V, 100, 'linestyle', 'none')
 axis equal
 xlim([-100,100])
@@ -103,7 +103,7 @@ colorbar()
 title('v')
 
 ax3 = nexttile();
-colormap(ax3, "coolwarm")
+colormap(ax3, slanCM("coolwarm"))
 contourf(X, Y, W, 100, 'linestyle', 'none')
 axis equal
 xlim([-100,100])

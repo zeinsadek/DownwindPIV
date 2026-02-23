@@ -3,15 +3,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\readimx-v2.1.9-win64');
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions');
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\colormaps')
+clc; clear; close all;
+addpath('C:\Users\sadek\Desktop\readimx-v2.1.9-win64');
+addpath('C:\Users\sadek\Desktop\ZeinPIVCodes_Github\DownwindPIV\Downwind_Functions');
+addpath('C:\Program Files\MATLAB\slanCM')
 
-% Load data for all 4 planes all at once
-project_path = 'G:\PIVYZ\new_results';
+% Load data for all 2 planes all at once
 orientation  = 'DW';
-coning = 'CN20';
+coning = 'CN00';
+tower = 'LM4B';
 x_location = '3';
+
+caze_folder = strcat(orientation, '_', tower, '_', coning);
+project_path = 'F:\PIVYZ\new_results'; 
 
 % Rotor diameter in mm
 D = 200;
@@ -25,7 +29,7 @@ components = {'u', 'v', 'w','uu', 'vv','ww','uv','uw', 'vw'};
 
 for i = 1:2
     % Generate case name and path
-    recording_name = strcat(orientation, '_LM00_', coning, '_PLYZ_X', x_location, '_Z', num2str(i), '_MEANS.mat');
+    recording_name = strcat(orientation, '_', tower, '_', coning, '_PLYZ_X', x_location, '_Z', num2str(i), '_MEANS.mat');
     piv_path       = fullfile(project_path, 'means', recording_name);
     location_tag   = strcat('X', x_location, 'Z', num2str(i));
     
@@ -188,21 +192,21 @@ tiledlayout(1,3)
 ax1 = nexttile;
 contourf(combined.X, combined.Y, combined.u, 100, 'linestyle', 'none')
 axis equal
-colormap(ax1, 'parula')
+colormap(ax1, slanCM('parula'))
 colorbar
 title('u')
 
 ax2 = nexttile;
 contourf(combined.X, combined.Y, combined.v, 100, 'linestyle', 'none')
 axis equal
-colormap(ax2, 'coolwarm')
+colormap(ax2, slanCM('coolwarm'))
 colorbar
 title('v')
 
 ax3 = nexttile;
 contourf(combined.X, combined.Y, combined.w, 100, 'linestyle', 'none')
 axis equal
-colormap(ax3, 'coolwarm')
+colormap(ax3, slanCM('coolwarm'))
 colorbar
 title('w')
 
@@ -245,21 +249,21 @@ ax1 = nexttile;
 contourf(combined.X, combined.Y, combined.uv, 100, 'linestyle', 'none')
 axis equal
 colorbar()
-colormap(ax1, 'coolwarm')
+colormap(ax1, slanCM('coolwarm'))
 title('uv')
 
 ax2 = nexttile;
 contourf(combined.X, combined.Y, combined.uw, 100, 'linestyle', 'none')
 axis equal
 colorbar()
-colormap(ax2, 'coolwarm')
+colormap(ax2, slanCM('coolwarm'))
 title('uw')
 
 ax3 = nexttile;
 contourf(combined.X, combined.Y, combined.vw, 100, 'linestyle', 'none')
 axis equal
 colorbar()
-colormap(ax3, 'coolwarm')
+colormap(ax3, slanCM('coolwarm'))
 title('vw')
 clc;
 
@@ -268,8 +272,12 @@ clc;
 % SAVE TO MATFILE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-save_path = fullfile(project_path, 'combined');
-save_name = strcat(orientation, '_LM00_', coning, '_PIVYZ_X', x_location, '_COMBINED.mat');
+save_path = fullfile(project_path, 'combined', caze_folder);
+save_name = strcat(orientation, '_', tower, '_', coning, '_PIVYZ_X', x_location, '_COMBINED.mat');
+
+if ~exist(save_path, 'dir')
+    mkdir(save_path);
+end
 
 save(fullfile(save_path, save_name), 'combined');
 fprintf('Saved matfile!\n')
