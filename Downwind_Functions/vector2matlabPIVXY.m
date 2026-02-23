@@ -6,7 +6,10 @@
 % out_path:     Folder where new struct file will be saved.
 % out_name:     Name of new struct file.
 
-function output = vector2matlab_PIVXY(file_path, out_path)
+function output = vector2matlabPIVXY(file_path, out_path)
+
+    % Halim edit to be able to open
+    output = matfile(out_path, 'Writable', true);
 
     % Path for All Instantenious Snapshots for Specified Conditions.
     file_name   = dir([file_path,'/*.vc7']); 
@@ -23,11 +26,10 @@ function output = vector2matlab_PIVXY(file_path, out_path)
             fprintf('<vector2matlab> *Save Folder was Previously Created. \n')
         else
             fprintf('<vector2matlab> *Creating New Save Folder. \n')
-            %mkdir(out_path);
         end
 
         % Define Image Depth/Length [L] from First Frame.
-        D           = length(file_name);
+        D = length(file_name);
     
         % Loop Through Each Frame in Folder.
         fprintf('\n<vector2matlab> PROGRESS: ');
@@ -48,29 +50,34 @@ function output = vector2matlab_PIVXY(file_path, out_path)
             WF = data.Frames{1,1}.Components{W0_index,1}.Scale.Slope.*data.Frames{1,1}.Components{W0_index,1}.Planes{1,1} + data.Frames{1,1}.Components{W0_index,1}.Scale.Offset;
     
             % Correct Sign, Direction, and Add Data to Object.
-%             output.U(:, :, frame_number) =  rot90(WF);
-%             output.V(:, :, frame_number) =  -1 * rot90(UF);
-%             output.W(:, :, frame_number) =  rot90(VF);
-            output.U(:, :, frame_number) =  UF;
-            output.V(:, :, frame_number) =  VF;
-            output.W(:, :, frame_number) =  WF;
-        
-    
+            % output.U(:, :, frame_number) =  -fliplr(UF.');
+            % output.V(:, :, frame_number) =  -fliplr(VF.');
+            % output.W(:, :, frame_number) =  -fliplr(WF.');
+
+            U(:, :, frame_number) =  -fliplr(UF.');
+            V(:, :, frame_number) =  -fliplr(VF.');
+            W(:, :, frame_number) =  -fliplr(WF.');
+
         end
     
         % Add Image/Data Parameters to struct file.
-        nf = size(output.U);
-        x = data.Frames{1,1}.Scales.X.Slope.*linspace(1, nf(1), nf(1)).*data.Frames{1,1}.Grids.X + data.Frames{1,1}.Scales.X.Offset;
-        y = data.Frames{1,1}.Scales.Y.Slope.*linspace(1, nf(2), nf(2)).*data.Frames{1,1}.Grids.Y + data.Frames{1,1}.Scales.Y.Offset;
+        nf = size(U(:,:,1));
+        x = data.Frames{1,1}.Scales.X.Slope.*linspace(1, nf(2), nf(2)).*data.Frames{1,1}.Grids.X + data.Frames{1,1}.Scales.X.Offset;
+        y = data.Frames{1,1}.Scales.Y.Slope.*linspace(1, nf(1), nf(1)).*data.Frames{1,1}.Grids.Y + data.Frames{1,1}.Scales.Y.Offset;
         [X, Y] = meshgrid(x, y);
         output.X = X;
         output.Y = Y;
         output.D = D;
+
+        % Save velocities
+        output.U = U;
+        output.V = V;
+        output.W = W;
         
         % Save Matlab File.
         fprintf('\n<vector2matlab> Saving Data to File... \n');
         %file_save = strcat(out_path, '/', out_name, '.mat');
-        save(out_path, 'output');
+        % save(out_path, 'output');
         clc; fprintf('<vector2matlab> Data Save Complete \n')
     end
 end

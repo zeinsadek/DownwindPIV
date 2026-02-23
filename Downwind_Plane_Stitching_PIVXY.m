@@ -13,12 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions');
-addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/colormaps');
+% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions');
+% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/colormaps');
+addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions')
+addpath('C:\Users\ofercak\Desktop\Zein\PIV\readimx-v2.1.9-win64')
 
 % Load data for all 4 planes all at once
-project_path = '/Users/zeinsadek/Desktop/Experiments/Downwind/Processed/means';
-orientation  = 'UW';
+% project_path = '/Users/zeinsadek/Desktop/Experiments/Downwind/Processed/means';
+project_path = 'H:\PIVXY\new_results\';
+orientation  = 'DW';
+coning = 'CN20';
 
 % Rotor diameter in mm
 D = 200;
@@ -33,8 +37,8 @@ for i = 1:2
     for j = 1:2
 
         % Generate case name and path
-        recording_name = strcat(orientation, '_LM00_CN00_PLXZ_X', num2str(i), '_Z', num2str(j), '_MEANS.mat');
-        piv_path       = fullfile(project_path, recording_name);
+        recording_name = strcat(orientation, '_LM00_', coning, '_PLXY_X', num2str(i), '_Z', num2str(j), '_MEANS.mat');
+        piv_path       = fullfile(project_path, 'means', recording_name);
         location_tag   = strcat('X', num2str(i), 'Z', num2str(j));
         
         % Load data into temp and store into structure
@@ -63,12 +67,12 @@ for i = 1:2
             tmp_mean = tmp.(component);
 
             % Rotate (or something else...)
-            tmp_mean = fliplr(tmp_mean.');
+            % tmp_mean = fliplr(tmp_mean.');
 
             % Change sign of specific components
-            if ismember(component, {'u', 'w', 'uv', 'vw'})
-                tmp_mean = -1 * tmp_mean;
-            end
+            % if ismember(component, {'u', 'w', 'uv', 'vw'})
+            %     tmp_mean = -1 * tmp_mean;
+            % end
 
             % Non-dimensionalize means
             if ismember(component, {'u', 'v', 'w'})
@@ -336,7 +340,7 @@ axis equal
 xlim([0,xMax])
 ylim([-yMax, yMax])
 title('$v / u_{\infty}$', 'Interpreter', 'latex', 'FontSize', fontSize)
-colormap(ax2, 'coolwarm')
+colormap(ax2, 'parula')
 colorbar()
 clim([-0.1, 0.1])
 xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
@@ -350,7 +354,7 @@ axis equal
 xlim([0, xMax])
 ylim([-yMax, yMax])
 title('$w / u_{\infty}$', 'Interpreter', 'latex', 'FontSize', fontSize)
-colormap(ax3, 'coolwarm')
+colormap(ax3, 'parula')
 colorbar()
 clim([-0.3, 0.3])
 xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
@@ -439,7 +443,7 @@ axis equal
 xlim([0, xMax])
 ylim([-yMax, yMax])
 title("$\overline{u'v'} / \left({u_{\infty}}\right)^2$", 'Interpreter', 'latex', 'FontSize', fontSize)
-colormap(ax1, 'coolwarm')
+colormap(ax1, 'parula')
 colorbar()
 clim([-0.004, 0.004])
 xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
@@ -454,7 +458,7 @@ axis equal
 xlim([0,xMax])
 ylim([-yMax, yMax])
 title("$\overline{u'w'} / \left({u_{\infty}}\right)^2$", 'Interpreter', 'latex', 'FontSize', fontSize)
-colormap(ax2, 'coolwarm')
+colormap(ax2, 'parula')
 colorbar()
 clim([-0.002, 0.002])
 xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
@@ -468,8 +472,20 @@ axis equal
 xlim([0, xMax])
 ylim([-yMax, yMax])
 title("$\overline{v'w'} / \left({u_{\infty}}\right)^2$", 'Interpreter', 'latex', 'FontSize', fontSize)
-colormap(ax3, 'coolwarm')
+colormap(ax3, 'parula')
 colorbar()
 clim([-0.002, 0.002])
 xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
+
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SAVE TO MATFILE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+save_path = fullfile(project_path, 'combined');
+save_name = strcat(orientation, '_LM00_', coning, '_PIVXY_COMBINED.mat');
+
+save(fullfile(save_path, save_name), 'combined');
+fprintf('Saved matfile!\n')
+
 
