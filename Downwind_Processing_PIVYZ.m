@@ -12,7 +12,7 @@ addpath('C:\Program Files\MATLAB\slanCM')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Data paths
-caze = 'DW_LM4B_CN00_PLYZ';
+caze = 'UW_LM4B_CN00_PLYZ';
 position = 'X3_Z2';
 
 caze_position  = strcat(caze, '_', position);

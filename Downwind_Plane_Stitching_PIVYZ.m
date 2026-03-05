@@ -3,13 +3,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-clc; clear; close all;
 addpath('C:\Users\sadek\Desktop\readimx-v2.1.9-win64');
 addpath('C:\Users\sadek\Desktop\ZeinPIVCodes_Github\DownwindPIV\Downwind_Functions');
 addpath('C:\Program Files\MATLAB\slanCM')
 
 % Load data for all 2 planes all at once
-orientation  = 'DW';
+orientation  = 'UW';
 coning = 'CN00';
 tower = 'LM4B';
 x_location = '3';

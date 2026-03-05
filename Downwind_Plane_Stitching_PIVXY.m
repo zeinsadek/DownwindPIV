@@ -13,16 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc; clear; close all;
-% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/Downwind/Downwind_Functions');
-% addpath('/Users/zeinsadek/Desktop/Experiments/PIV/Processing/colormaps');
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\DownwindPIV\Downwind_Functions')
-addpath('C:\Users\ofercak\Desktop\Zein\PIV\readimx-v2.1.9-win64')
+addpath('C:\Users\sadek\Desktop\readimx-v2.1.9-win64');
+addpath('C:\Users\sadek\Desktop\ZeinPIVCodes_Github\DownwindPIV\Downwind_Functions');
+addpath('C:\Program Files\MATLAB\slanCM')
 
 % Load data for all 4 planes all at once
 % project_path = '/Users/zeinsadek/Desktop/Experiments/Downwind/Processed/means';
-project_path = 'H:\PIVXY\new_results\';
+project_path = 'E:\PIVXY\new_results_PIVXY\';
 orientation  = 'DW';
-coning = 'CN20';
+coning = 'CN00';
+tower = 'LM4B';
 
 % Rotor diameter in mm
 D = 200;
@@ -37,7 +37,7 @@ for i = 1:2
     for j = 1:2
 
         % Generate case name and path
-        recording_name = strcat(orientation, '_LM00_', coning, '_PLXY_X', num2str(i), '_Z', num2str(j), '_MEANS.mat');
+        recording_name = strcat(orientation, '_', tower, '_', coning, '_PLXY_X', num2str(i), '_Z', num2str(j), '_MEANS.mat');
         piv_path       = fullfile(project_path, 'means', recording_name);
         location_tag   = strcat('X', num2str(i), 'Z', num2str(j));
         
@@ -483,7 +483,7 @@ xlabel('$ x / D$', 'interpreter', 'latex', 'FontSize', fontSize)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 save_path = fullfile(project_path, 'combined');
-save_name = strcat(orientation, '_LM00_', coning, '_PIVXY_COMBINED.mat');
+save_name = strcat(orientation, '_', tower, '_', coning, '_PIVXY_COMBINED.mat');
 
 save(fullfile(save_path, save_name), 'combined');
 fprintf('Saved matfile!\n')
